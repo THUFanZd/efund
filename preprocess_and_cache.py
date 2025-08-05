@@ -1,6 +1,7 @@
 import os
 import torch
 import pandas as pd
+from tqdm import tqdm
 from data_find import find_macro_data, find_merged_data, find_conf_data
 
 def preprocess_and_save(args, split="train"):
@@ -17,7 +18,7 @@ def preprocess_and_save(args, split="train"):
     else:  # test
         indices = range(test_size)
 
-    for i, idx in enumerate(indices):
+    for i, idx in enumerate(tqdm(indices)):
         date_str = macro_hist_df.iloc[idx][0]
         y = torch.tensor(macro_hist_df.iloc[idx][1:].values.astype(float), dtype=torch.float)
         macro_x = find_macro_data(macro_hist_df, date_str, args["num_months"])

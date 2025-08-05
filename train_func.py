@@ -102,7 +102,7 @@ def val(model, criterion, writer, ValDataloader, epoch, device, tag='val'):
     writer.add_scalar(f'Loss/{tag}', val_loss, epoch)
     for i in range(len(mae)):
         writer.add_scalar(f'MAE/{tag}_dim_{i}', mae[i], epoch)
-        writer.add_scalar(f'DirectionAcc_{tag}/dim_{i}', direction_acc[i], epoch)
+        writer.add_scalar(f'DirectionAcc/{tag}_dim_{i}', direction_acc[i], epoch)
 
 def test(model, TestDataloader, writer, device):
     model.eval()
