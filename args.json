@@ -1,7 +1,8 @@
 {
-    "log_sub_dir": "lstm_notext_2",
-    "model": "lstm_notext",
-    "num_months": 6,
+    "log_sub_dir": "lstm_2_1",
+    "cache_path": "./cache",
+    "model": "lstm",
+    "num_months": 9,
     "data_months": 180,
     "test_size": 0.167,
     "sample_amount": 1000,
@@ -9,14 +10,15 @@
     "max_min_weight_ratio": 10,
     "decay_rate": 0.1,
     "lstm": {
+        "article_embedding_dim": 300,
         "merge_hidden_dim": 128,
-        "monthly_hidden_dim": 256,
+        "article_hidden_dim": 128,
+        "monthly_hidden_dim": 128,
         "dropout": 0.3
     },
-    "epoch_num": 7,
+    "epoch_num": 10,
     "batch_size": 32,
     "lr_strategy": "cosine",
     "lr": 0.01,
-
     "macro_dim": 20
 }

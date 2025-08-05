@@ -7,7 +7,6 @@ from torch.optim.lr_scheduler import CosineAnnealingLR, ExponentialLR
 
 from models import EconomicIndicatorPredictor
 from train_func import *
-from conf_text_tokenize import dict_dim_dict
 
 if __name__ == '__main__':
     with open('args.json') as f:

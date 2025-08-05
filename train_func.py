@@ -6,6 +6,9 @@ from tqdm import tqdm
 from data_loader import load_data
 from models import *
 
+if not os.path.exists('./cache'):
+    from preprocess_and_cache import preprocess_and_save
+
 def organize_files(path):
     if not os.path.exists(path):
         return
@@ -18,6 +21,9 @@ def organize_files(path):
         print(f"\u5df2\u5c06 {len(files)} \u4e2a\u6587\u4ef6\u79fb\u52a8\u5230 {new_folder}")
 
 def data_load_split(args):
+    if not os.path.exists('./cache'):
+        preprocess_and_save(args, flag='train', cache_path=args['cache_path'])
+        preprocess_and_save(args, flag='test')
     TrainDataset, TrainDataloader = load_data(args, flag='train')
     TestDataset, TestDataloader = load_data(args, flag='test')
     print('train len: ', len(TrainDataset))
