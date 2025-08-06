@@ -50,7 +50,10 @@ if __name__ == '__main__':
     print(f"模型总参数量为：{total_params}")
 
     # trainer
-    criterion = nn.MSELoss()
+    if 'loss' not in args.keys() or args['loss'] == 'mse':
+        criterion = nn.MSELoss()
+    elif args['loss'] == 'l1':
+        criterion = nn.L1Loss()
     optimizer = torch.optim.Adam(model.parameters(), lr=args['lr'])
     if args['lr_strategy'] == 'expo':
         scheduler = ExponentialLR(optimizer, gamma=args['gamma'])

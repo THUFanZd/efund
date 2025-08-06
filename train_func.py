@@ -6,7 +6,12 @@ from tqdm import tqdm
 from data_loader import load_data
 from models import *
 
-if not os.path.exists('./cache'):
+with open('args.json') as f:
+    import json
+    args = json.load(f)
+    assert type(args) == dict
+
+if not os.path.exists(args['cache_path']):
     from preprocess_and_cache import preprocess_and_save
 
 def organize_files(path):
