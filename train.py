@@ -31,6 +31,7 @@ if __name__ == '__main__':
             merge_input_dim=TrainDataset.get_merge_dim(),
             article_embedding_dim=args['lstm']['article_embedding_dim'],
             macro_dim=args['macro_dim'],
+            output_dim=args.get('output_dim', args['macro_dim']),
             merge_lstm_hidden_dim=args['lstm']['merge_hidden_dim'],
             article_lstm_hidden_dim=args['lstm']['article_hidden_dim'],
             monthly_lstm_hidden_dim=args['lstm']['monthly_hidden_dim'],

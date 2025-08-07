@@ -9,3 +9,9 @@ __pycache__/
 
 # 缓存文件目录
 /cache/
+
+# 测试数据缓存目录
+/cache_test/
+
+# 测试结果目录
+/test_res/

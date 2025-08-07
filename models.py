@@ -1,12 +1,12 @@
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
 
 class EconomicIndicatorPredictor(nn.Module):
     def __init__(self, 
                  merge_input_dim,
                  article_embedding_dim,
                  macro_dim,
+                 output_dim,
                  merge_lstm_hidden_dim=64,
                  article_lstm_hidden_dim=64,
                  monthly_lstm_hidden_dim=128,
@@ -44,7 +44,7 @@ class EconomicIndicatorPredictor(nn.Module):
             nn.Linear(monthly_lstm_hidden_dim, 64),
             nn.ReLU(),
             nn.Dropout(p=dropout_prob),
-            nn.Linear(64, macro_dim)
+            nn.Linear(64, output_dim)
         )
 
     def forward(self, financial_seq, article_seq, macro_seq):

@@ -1,0 +1,4 @@
+{
+    "test_model_name": "lstm_2_2_l1_dropout",
+    "eval_epoch": 10
+}
