@@ -37,14 +37,13 @@ if __name__ == '__main__':
         # 在 macro_hist_df 中找到该日期对应的行
         idx = macro_stand[macro_stand['日期'] == date].index
 
-        if len(idx) == 0:
-            # 将y设置为全0向量即可
-            y = torch.zeros(args['macro_dim'], dtype=torch.float)
-        else:
-            idx = idx[0]
-            y = torch.tensor(macro_hist_df.iloc[idx][1:].values.astype(float), dtype=torch.float)
+        idx = idx[0]
+        y = torch.tensor(macro_hist_df.iloc[idx][1:].values.astype(float), dtype=torch.float)
+        
+        def last_day_prev_month(date: pd.Timestamp, lag: int = 0) -> pd.Timestamp:
+            return date - pd.offsets.MonthEnd(lag)  # 推到前lag个月的最后一天
 
-        date_str = format_date_for_lookup(date)
+        date_str = format_date_for_lookup(last_day_prev_month(date, args.get("lag", 0)))
         macro_x = find_macro_data(macro_hist_df, date_str, args["num_months"])
         try:
             merged_x = find_merged_data(merged_df, date_str, args["num_months"])
@@ -53,4 +52,4 @@ if __name__ == '__main__':
         conf_x = find_conf_data(conf_df, date_str, args["num_months"])
 
         torch.save((macro_x, merged_x, conf_x, y), f'{cache_path}/{i}.pt')
-        print(f"Cached sample {i}/{len(target_date)} -> {date.strftime('%Y/%m/%d')}")
+        print(f"Cached sample {i}/{len(target_date)} -> {date_str}")

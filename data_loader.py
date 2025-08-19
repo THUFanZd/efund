@@ -20,7 +20,7 @@ class MyDataset(Dataset):
         return len(self.file_list)
 
     def __getitem__(self, idx):
-        return torch.load(self.file_list[idx])
+        return torch.load(self.file_list[idx], weights_only=True)
 
     def get_merge_dim(self):
         # 加载第一个样本取维度

@@ -6,11 +6,11 @@ from data_find import find_macro_data, find_merged_data, find_conf_data
 def preprocess_and_save(args, flag, cache_path='./cache'):
     os.makedirs(f'{cache_path}/{flag}', exist_ok=True)
 
-    macro_hist_df = pd.read_csv('../macro_hist.csv', encoding='gbk')[:args["data_months"]+args["num_months"]+1]
+    macro_hist_df = pd.read_csv('../macro_hist.csv', encoding='gbk')[:args["data_months"]+args["num_months"]+args["lag"]+1]
     conf_df = pd.read_csv('../pbc_conference.csv')
     merged_df = pd.read_csv('../merged_result.csv', encoding='gbk')
 
-    total = len(macro_hist_df)
+    total = len(macro_hist_df) - args["lag"]
     test_size = int(total * args["test_size"])
     if flag == "train":
         indices = range(test_size, total)
@@ -18,7 +18,8 @@ def preprocess_and_save(args, flag, cache_path='./cache'):
         indices = range(test_size)
 
     for i, idx in enumerate(indices):
-        date_str = macro_hist_df.iloc[idx][0]
+        lag = args.get("lag", 0)
+        date_str = macro_hist_df.iloc[idx + lag][0]
         y = torch.tensor(macro_hist_df.iloc[idx][1:].values.astype(float), dtype=torch.float)
         macro_x = find_macro_data(macro_hist_df, date_str, args["num_months"])
         merged_x = find_merged_data(merged_df, date_str, args["num_months"])
