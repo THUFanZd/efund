@@ -1,7 +1,10 @@
 import pandas as pd
 
-print("Change csv name in source code")
-csv_name = 'test_results_lstm_2_2_l1_dropout'
+with open('./test_args.json', 'r') as f:
+    import json
+    test_args = json.load(f)
+
+csv_name = f"test_results_{test_args["test_model_name"]}"
 csv_path = f'./test_res/{csv_name}.csv'
 df = pd.read_csv(csv_path)
 t = input("Input columns want to extract: pred or eval\n")

@@ -1,4 +1,4 @@
 {
-    "test_model_name": "lstm_2_2_l1",
+    "test_model_name": "lstm_2_2_l1_lag1",
     "eval_epoch": 10
 }
