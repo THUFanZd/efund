@@ -24,7 +24,7 @@ def preprocess_and_save(args, flag, cache_path='./cache'):
         macro_x = find_macro_data(macro_hist_df, date_str, args["num_months"])
         merged_x = find_merged_data(merged_df, date_str, args["num_months"])
         conf_x = find_conf_data(conf_df, date_str, args["num_months"])
-        torch.save((macro_x, merged_x, conf_x, y), f'./cache/{flag}/{i}.pt')
+        torch.save((macro_x, merged_x, conf_x, y), f'{cache_path}/{flag}/{i}.pt')
         print(f"Cached sample {i}/{len(indices)} -> {date_str}")
 
 if __name__ == '__main__':

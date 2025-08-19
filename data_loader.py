@@ -5,11 +5,11 @@ from torch.utils.data import Dataset, DataLoader, WeightedRandomSampler
 
 
 class MyDataset(Dataset):
-    def __init__(self, args, flag):
+    def __init__(self, args, flag, cache_path):
         super(MyDataset, self).__init__()
         self.args = args
         self.flag = flag
-        self.cache_dir = f'{args["cache_path"]}/{flag}'
+        self.cache_dir = f'{cache_path}/{flag}'
         self.file_list = sorted([
             os.path.join(self.cache_dir, fname)
             for fname in os.listdir(self.cache_dir)
@@ -47,10 +47,11 @@ def generate_weights(length, max_weight=1.0, min_weight=0.1, decay_rate=0.1, met
         raise ValueError("method must be 'linear' or 'exp'")
 
 
-def load_data(args, flag):
+def load_data(args, flag, cache_path):
     data_set = MyDataset(
         args=args,
-        flag=flag
+        flag=flag,
+        cache_path=cache_path
     )
 
     if flag == "train":
