@@ -38,8 +38,6 @@ if __name__ == '__main__':
         idx = macro_stand[macro_stand['日期'] == date].index
 
         if len(idx) == 0:
-            # print(f"日期 {date} 不存在于 macro_hist_df 中，跳过")
-            # continue
             # 将y设置为全0向量即可
             y = torch.zeros(args['macro_dim'], dtype=torch.float)
         else:
@@ -51,7 +49,7 @@ if __name__ == '__main__':
         try:
             merged_x = find_merged_data(merged_df, date_str, args["num_months"])
         except:
-            merged_x = find_merged_data(merged_df, "2025/8/31", args["num_months"])
+            merged_x = find_merged_data(merged_df, "2025/8/31", args["num_months"])  # 最后有数据的月份
         conf_x = find_conf_data(conf_df, date_str, args["num_months"])
 
         torch.save((macro_x, merged_x, conf_x, y), f'{cache_path}/{i}.pt')
