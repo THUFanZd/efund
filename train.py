@@ -15,12 +15,13 @@ if __name__ == '__main__':
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     torch.manual_seed(42)
 
-    os.makedirs(f"./res/{all_args[0]['log_sub_dir']}", exist_ok=True)
-    organize_files(f"./res/{all_args[0]['log_sub_dir']}")
+    log_sub_dir = all_args[0]["log_sub_dir"]
+    os.makedirs(f"./res/{log_sub_dir}", exist_ok=True)
+    organize_files(f"./res/{log_sub_dir}")
     with open(f'./res/{all_args[0]["log_sub_dir"]}/args.json', 'w') as f:
         json.dump(all_args, f, indent=4)
 
-    writer = SummaryWriter(log_dir=f"./logs/{all_args[0]['log_sub_dir']}")
+    writer = SummaryWriter(log_dir=f"./logs/{log_sub_dir}")
     ex_arg = {}
     sum_params = 0
     ExTrainDataset = None
@@ -28,6 +29,7 @@ if __name__ == '__main__':
     ExTestDataloader = None
     for i, args in enumerate(all_args):
         # data
+        args["log_sub_dir"] = log_sub_dir
         if args["data_months"] == ex_arg.get("data_months", None) and\
             args["num_months"] == ex_arg.get("num_months", None):
             if not os.path.exists(f'./cache/{i}'):
