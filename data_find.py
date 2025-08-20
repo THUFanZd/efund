@@ -14,8 +14,7 @@ def extract_year_quarter(text):
         return year, quarter
     return None, None
 
-def find_macro_data(df: pd.DataFrame, date_str: str, num_month: int):
-    #df = pd.read_csv('../macro_hist.csv', encoding='gbk')
+def find_macro_data(df: pd.DataFrame, date_str: str, num_month: int):  # 找到date_str对应日期(不包括)以前的数据
     idx = df[df['日期'] == date_str].index
     if idx[0] + num_month + 1 > len(df):
         return torch.zeros((num_month, len(df.columns)-1))  # -1 因为要去掉日期列

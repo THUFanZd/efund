@@ -22,7 +22,7 @@ if __name__ == '__main__':
         json.dump(all_args, f, indent=4)
 
     writer = SummaryWriter(log_dir=f"./logs/{log_sub_dir}")
-    ex_arg = {}
+    ex_args = {}
     sum_params = 0
     ExTrainDataset = None
     ExTrainDataloader = None
@@ -30,8 +30,8 @@ if __name__ == '__main__':
     for i, args in enumerate(all_args):
         # data
         args["log_sub_dir"] = log_sub_dir
-        if args["data_months"] == ex_arg.get("data_months", None) and\
-            args["num_months"] == ex_arg.get("num_months", None):
+        if args["data_months"] == ex_args.get("data_months", None) and\
+            args["num_months"] == ex_args.get("num_months", None):
             if not os.path.exists(f'./cache/{i}'):
                 shutil.copytree(f'./cache/{i-1}', f'./cache/{i}')  # 将路径"./cache/i-1"下的内容复制到"./cache/i"
             TrainDataset, TrainDataloader, TestDataset, TestDataloader = ExTrainDataset, ExTrainDataloader, None, ExTestDataloader
@@ -41,7 +41,7 @@ if __name__ == '__main__':
             ExTrainDataset = TrainDataset
             ExTrainDataloader = TrainDataloader
             ExTestDataloader = TestDataloader
-            ex_arg = args
+            ex_args = args
 
         # model
         if args['model'] == 'lstm':
