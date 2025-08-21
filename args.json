@@ -1,8 +1,10 @@
 [
     {
-        "log_sub_dir": "lstm_lag1_month_split2",
+        "log_sub_dir": "lstm_lag1_month_split3",
         "add_month": true,
-        "group_indices": [9],
+        "group_indices": [
+            9, 8
+        ],
         "loss": "l1",
         "model": "lstm",
         "lag": 1,
@@ -28,7 +30,27 @@
     },
     {
         "add_month": true,
-        "group_indices": [0,1,2,3,4,5,6,7,8,10,11,12,13,14,15,16,17,18,19],
+        "group_indices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19
+        ],
         "loss": "l1",
         "model": "lstm",
         "lag": 1,

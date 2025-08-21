@@ -104,6 +104,6 @@ def val(model, criterion, writer, ValDataloader, epoch, device, tag='val', group
     print(f"Direction acc per dim: {direction_acc}")
 
     writer.add_scalar(f'Loss/{tag}', val_loss, epoch)
-    for i in range(len(mae)):
-        writer.add_scalar(f'MAE/{tag}_dim_{i}', mae[i], epoch)
-        writer.add_scalar(f'DirectionAcc/{tag}_dim_{i}', direction_acc[i], epoch)
+    for i, model_id in enumerate(group_indices):
+        writer.add_scalar(f'MAE/{tag}_dim_{model_id}', mae[i], epoch)
+        writer.add_scalar(f'DirectionAcc/{tag}_dim_{model_id}', direction_acc[i], epoch)
