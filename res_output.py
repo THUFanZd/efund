@@ -18,17 +18,17 @@ with open(f'./res/{test_model_name}/args.json', 'r') as f:
     all_args = json.load(f)
 
 log_sub_dir = all_args[0]["log_sub_dir"]
+output_dim = all_args[0].get('output_dim', all_args[0]['macro_dim'])
 models = []
 for i, args in enumerate(all_args):
     args["log_sub_dir"] = log_sub_dir
-    output_dim = args.get('output_dim', args['macro_dim'])
     train_cache_path = f'./cache/{i}'
     TrainDataset, TrainDataloader, TestDataset, TestDataloader = data_load_split(args, train_cache_path)
-    # 初始化模型
+    macro_dim = args['macro_dim'] if not args.get('add_month', False) else args["macro_dim"] + 1
     model = EconomicIndicatorPredictor(
         merge_input_dim=TrainDataset.get_merge_dim(),
         article_embedding_dim=args['lstm']['article_embedding_dim'],
-        macro_dim=args['macro_dim'],
+        macro_dim=macro_dim,
         output_dim=len(args['group_indices']),
         merge_lstm_hidden_dim=args['lstm']['merge_hidden_dim'],
         article_lstm_hidden_dim=args['lstm']['article_hidden_dim'],

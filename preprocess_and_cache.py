@@ -6,7 +6,13 @@ from data_find import find_macro_data, find_merged_data, find_conf_data
 def preprocess_and_save(args, flag, cache_path='./cache'):
     os.makedirs(f'{cache_path}/{flag}', exist_ok=True)
 
-    macro_hist_df = pd.read_csv('../macro_hist.csv', encoding='gbk')[:args["data_months"]+args["num_months"]+args["lag"]+1]
+    if args.get('add_month', False):
+        macro_hist_path = '../macro_hist_with_month.csv'
+    else:
+        macro_hist_path = '../macro_hist.csv'
+
+
+    macro_hist_df = pd.read_csv(macro_hist_path, encoding='gbk')[:args["data_months"]+args["num_months"]+args["lag"]+1]
     conf_df = pd.read_csv('../pbc_conference.csv')
     merged_df = pd.read_csv('../merged_result.csv', encoding='gbk')
 
@@ -26,11 +32,3 @@ def preprocess_and_save(args, flag, cache_path='./cache'):
         conf_x = find_conf_data(conf_df, date_str, args["num_months"])
         torch.save((macro_x, merged_x, conf_x, y), f'{cache_path}/{flag}/{i}.pt')
         print(f"Cached sample {i}/{len(indices)} -> {date_str}")
-
-if __name__ == '__main__':
-    import json
-    with open('args.json', 'r') as f:
-        args = json.load(f)
-
-    preprocess_and_save(args, flag='train')
-    preprocess_and_save(args, flag='test')

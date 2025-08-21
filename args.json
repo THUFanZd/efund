@@ -1,7 +1,7 @@
 [
     {
-        "log_sub_dir": "lstm_lag1_split1",
-        "cache_path": "./cache",
+        "log_sub_dir": "lstm_lag1_month_split1",
+        "add_month": true,
         "group_indices": [8],
         "loss": "l1",
         "model": "lstm",
@@ -27,8 +27,7 @@
         "macro_dim": 20
     },
     {
-        "log_sub_dir": "lstm_2_2_l1_lag1_s",
-        "cache_path": "./cache",
+        "add_month": true,
         "group_indices": [0,1,2,3,4,6,7,11,12,13,14,15,16,17,18,19],
         "loss": "l1",
         "model": "lstm",
@@ -54,8 +53,7 @@
         "macro_dim": 20
     },
     {
-        "log_sub_dir": "lstm_2_2_l1_lag1_s",
-        "cache_path": "./cache",
+        "add_month": true,
         "group_indices": [5],
         "loss": "l1",
         "model": "lstm",

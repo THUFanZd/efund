@@ -43,12 +43,13 @@ if __name__ == '__main__':
             ExTestDataloader = TestDataloader
             ex_args = args
 
+        macro_dim = args['macro_dim'] if not args.get('add_month', False) else args["macro_dim"] + 1
         # model
         if args['model'] == 'lstm':
             model = EconomicIndicatorPredictor(
                 merge_input_dim=TrainDataset.get_merge_dim(),
                 article_embedding_dim=args['lstm']['article_embedding_dim'],
-                macro_dim=args['macro_dim'],
+                macro_dim=macro_dim,
                 output_dim=len(args.get('group_indices', list(range(20)))),
                 merge_lstm_hidden_dim=args['lstm']['merge_hidden_dim'],
                 article_lstm_hidden_dim=args['lstm']['article_hidden_dim'],
