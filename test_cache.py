@@ -14,7 +14,12 @@ with open('args.json', 'r') as f:
 
 if __name__ == '__main__':
     # 同样处理 macro_hist_df 日期列
-    macro_hist_df = pd.read_csv('../test_macro_hist.csv', encoding='gbk')
+    arg = all_args[0]
+    if arg.get('add_month', False):
+        macro_hist_path = '../test_macro_hist_with_month.csv'
+    else:
+        macro_hist_path = '../test_macro_hist.csv'
+    macro_hist_df = pd.read_csv(macro_hist_path, encoding='gbk')
     macro_stand = macro_hist_df.copy()
     macro_stand['日期'] = pd.to_datetime(macro_stand['日期'], errors='coerce')
     conf_df = pd.read_csv('../pbc_conference.csv')

@@ -1,8 +1,8 @@
 [
     {
-        "log_sub_dir": "lstm_lag1_month_split1",
+        "log_sub_dir": "lstm_lag1_month_split2",
         "add_month": true,
-        "group_indices": [8],
+        "group_indices": [9],
         "loss": "l1",
         "model": "lstm",
         "lag": 1,
@@ -28,33 +28,7 @@
     },
     {
         "add_month": true,
-        "group_indices": [0,1,2,3,4,6,7,11,12,13,14,15,16,17,18,19],
-        "loss": "l1",
-        "model": "lstm",
-        "lag": 1,
-        "num_months": 3,
-        "data_months": 180,
-        "test_size": 0.167,
-        "sample_amount": 1000,
-        "weight_method": "linear",
-        "max_min_weight_ratio": 7.4,
-        "decay_rate": 2,
-        "lstm": {
-            "article_embedding_dim": 300,
-            "merge_hidden_dim": 256,
-            "article_hidden_dim": 256,
-            "monthly_hidden_dim": 512,
-            "dropout": 0.5
-        },
-        "epoch_num": 10,
-        "batch_size": 32,
-        "lr_strategy": "cosine",
-        "lr": 0.01,
-        "macro_dim": 20
-    },
-    {
-        "add_month": true,
-        "group_indices": [5],
+        "group_indices": [0,1,2,3,4,5,6,7,8,10,11,12,13,14,15,16,17,18,19],
         "loss": "l1",
         "model": "lstm",
         "lag": 1,
