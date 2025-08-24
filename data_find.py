@@ -66,27 +66,7 @@ def find_merged_data(df: pd.DataFrame, date_str: str, num_month: int):
 
 
 if __name__ == '__main__':
-    df = pd.read_csv('../merged_result.csv', encoding='gbk')
-    res = find_merged_data(df, "2020/12/31", 6)
-    print(res.shape)
-    exit()
-    df = pd.read_csv('../macro_hist.csv', encoding='gbk')
-    res = find_macro_data(df, '2025/7/31', 6)
-    print(res.shape)
-    exit()
-    # df = pd.read_csv('../merged_result.csv', encoding='gbk')
-    df = pd.read_csv('../pbc_conference.csv')
-    res = find_conf_data(df, '2025/03/28', 6)
-    print(type(res))
-    print(res.shape)
-    exit()
-    # merged result
-    merged_result_df = pd.read_csv('../merged_result.csv', encoding='gbk')
-    # pbc conference
-    pbc_conference_df = pd.read_csv('../pbc_conference.csv', encoding='gbk')
-
     import chardet
-    # 检测文件的编码
     with open('../pbc_conference.csv', 'rb') as f:
         result = chardet.detect(f.read())
         print(result['encoding'])

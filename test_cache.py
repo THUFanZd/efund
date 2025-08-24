@@ -9,7 +9,11 @@ target_date = res_df.iloc[:, 0]
 target_date = target_date.dropna()
 
 import json
-with open('args.json', 'r') as f:
+with open('./test_args.json', 'r') as f:
+    test_args = json.load(f)
+test_model_name = test_args['test_model_name']
+
+with open(f'./res/{test_model_name}/args.json', 'r') as f:
     all_args = json.load(f)
 
 if __name__ == '__main__':
@@ -23,7 +27,9 @@ if __name__ == '__main__':
     macro_stand = macro_hist_df.copy()
     macro_stand['日期'] = pd.to_datetime(macro_stand['日期'], errors='coerce')
     conf_df = pd.read_csv('../pbc_conference.csv')
-    merged_df = pd.read_csv('../merged_result.csv', encoding='gbk')
+    idx = arg.get('merged_idx', 1)
+    merged_df = pd.read_csv(f'../merged_result_{idx}.csv', encoding='gbk') if idx != 1\
+                        else pd.read_csv(f'../merged_result.csv', encoding='gbk')
 
     # 创建缓存路径
     cache_path = './cache_test'

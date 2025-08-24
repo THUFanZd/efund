@@ -2,20 +2,10 @@ import torch
 import os
 import pandas as pd
 import numpy as np
-from test_cache import target_date
+from test_cache import target_date, all_args, test_model_name
 from models import EconomicIndicatorPredictor
 from train_func import data_load_split
 
-
-# 加载测试args
-with open('./test_args.json', 'r') as f:
-    import json
-    test_args = json.load(f)
-test_model_name = test_args['test_model_name']
-
-with open(f'./res/{test_model_name}/args.json', 'r') as f:
-    import json
-    all_args = json.load(f)
 
 log_sub_dir = all_args[0]["log_sub_dir"]
 output_dim = all_args[0].get('output_dim', all_args[0]['macro_dim'])
@@ -86,3 +76,4 @@ df = pd.DataFrame(records)
 os.makedirs('./test_res', exist_ok=True)
 df.to_csv(f'./test_res/test_results_{test_model_name}.csv', index=False)
 print("Saved detailed results to test_results.csv")
+import column_extract
