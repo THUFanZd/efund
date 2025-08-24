@@ -29,7 +29,7 @@ if __name__ == '__main__':
 
     df = pd.read_csv('../origin_merged_result.csv', encoding='gbk')
     l = []
-    for i in range(len(df.columns)):
+    for i in range(1, len(df.columns)):
         if '夜光指数' in df.columns[i]:
             l.append(i)
 
