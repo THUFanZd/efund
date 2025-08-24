@@ -17,7 +17,6 @@ def preprocess_and_save(args, flag, cache_path='./cache'):
     idx = args.get('merged_idx', 1)
     merged_df = pd.read_csv(f'../merged_result_{idx}.csv', encoding='gbk') if idx != 1\
                         else pd.read_csv(f'../merged_result.csv', encoding='gbk')
-    merged_df = pd.read_csv('../merged_result.csv', encoding='gbk')
 
     total = len(macro_hist_df) - args["lag"]
     test_size = int(total * args["test_size"])
