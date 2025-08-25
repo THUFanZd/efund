@@ -3,7 +3,7 @@ import os
 import pandas as pd
 import numpy as np
 from test_cache import target_date, all_args, test_model_name
-from models import EconomicIndicatorPredictor
+from models import *
 from train_func import data_load_split
 
 
@@ -15,16 +15,27 @@ for i, args in enumerate(all_args):
     train_cache_path = f'./cache/{i}'
     TrainDataset, TrainDataloader, TestDataset, TestDataloader = data_load_split(args, train_cache_path)
     macro_dim = args['macro_dim'] if not args.get('add_month', False) else args["macro_dim"] + 1
-    model = EconomicIndicatorPredictor(
-        merge_input_dim=TrainDataset.get_merge_dim(),
-        article_embedding_dim=args['lstm']['article_embedding_dim'],
-        macro_dim=macro_dim,
-        output_dim=len(args['group_indices']),
-        merge_lstm_hidden_dim=args['lstm']['merge_hidden_dim'],
-        article_lstm_hidden_dim=args['lstm']['article_hidden_dim'],
-        monthly_lstm_hidden_dim=args['lstm']['monthly_hidden_dim'],
-        dropout_prob=args['lstm']['dropout']
-    )
+    if args['model'] == 'lstm':
+        model = EconomicIndicatorPredictor(
+            merge_input_dim=TrainDataset.get_merge_dim(),
+            article_embedding_dim=args['lstm']['article_embedding_dim'],
+            macro_dim=macro_dim,
+            output_dim=len(args.get('group_indices', list(range(20)))),
+            merge_lstm_hidden_dim=args['lstm']['merge_hidden_dim'],
+            article_lstm_hidden_dim=args['lstm']['article_hidden_dim'],
+            monthly_lstm_hidden_dim=args['lstm']['monthly_hidden_dim'],
+            dropout_prob=args['lstm']['dropout']
+        )
+
+    elif args['model'] == 'lstm_notext':
+        model = EconomicIndicatorPredictorNoArticle(
+            merge_input_dim=TrainDataset.get_merge_dim(),
+            macro_dim=macro_dim,
+            output_dim=len(args.get('group_indices', list(range(20)))),
+            merge_lstm_hidden_dim=args['lstm']['merge_hidden_dim'],
+            monthly_lstm_hidden_dim=args['lstm']['monthly_hidden_dim'],
+            dropout_prob=args['lstm']['dropout']
+        )
 
     # 加载模型参数
     checkpoint_path = f"./res/{args['log_sub_dir']}/model_{i}_epoch_{args['epoch_num']}.pth"

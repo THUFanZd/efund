@@ -60,7 +60,8 @@ if __name__ == '__main__':
         elif args['model'] == 'lstm_notext':
             model = EconomicIndicatorPredictorNoArticle(
                 merge_input_dim=TrainDataset.get_merge_dim(),
-                macro_dim=args['macro_dim'],
+                macro_dim=macro_dim,
+                output_dim=len(args.get('group_indices', list(range(20)))),
                 merge_lstm_hidden_dim=args['lstm']['merge_hidden_dim'],
                 monthly_lstm_hidden_dim=args['lstm']['monthly_hidden_dim'],
                 dropout_prob=args['lstm']['dropout']
