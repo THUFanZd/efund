@@ -67,7 +67,7 @@ def train(model, criterion, optimizer, scheduler, writer, TrainDataloader, TestD
         print(f"Epoch {epoch+1}, Loss: {avg_loss:.4f}")
 
 def val(model, criterion, writer, ValDataloader, epoch, device, tag='val', group_indices=None):
-    if len(group_indices) == 0:
+    if len(ValDataloader) == 0:
         return
     model.eval()
     val_loss = 0.0
