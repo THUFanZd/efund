@@ -1,79 +1,223 @@
 [
     {
-        "log_sub_dir": "lstm_s3_m3_notext_1",
+        "log_sub_dir": "trm_s4_submit",
         "add_month": true,
         "merged_idx": 3,
         "group_indices": [
-            9,
-            8
-        ],
-        "loss": "l1",
-        "model": "lstm_notext",
-        "lag": 1,
-        "num_months": 3,
-        "data_months": 180,
-        "test_size": 0.167,
-        "sample_amount": 1000,
-        "weight_method": "linear",
-        "max_min_weight_ratio": 7.4,
-        "decay_rate": 2,
-        "lstm": {
-            "article_embedding_dim": 300,
-            "merge_hidden_dim": 512,
-            "article_hidden_dim": 256,
-            "monthly_hidden_dim": 512,
-            "dropout": 0.5
-        },
-        "epoch_num": 10,
-        "batch_size": 32,
-        "lr_strategy": "cosine",
-        "lr": 0.01,
-        "macro_dim": 20
-    },
-    {
-        "add_month": true,
-        "merged_idx": 2,
-        "group_indices": [
             0,
-            1,
             2,
             3,
             4,
             5,
-            6,
-            7,
-            10,
-            11,
-            12,
-            13,
-            14,
-            15,
-            16,
-            17,
-            18,
-            19
+            13
         ],
         "loss": "l1",
-        "model": "lstm",
+        "model": "trm",
         "lag": 1,
         "num_months": 3,
-        "data_months": 180,
-        "test_size": 0.167,
+        "data_months": 90,
+        "test_size": 0,
         "sample_amount": 1000,
         "weight_method": "linear",
         "max_min_weight_ratio": 7.4,
         "decay_rate": 2,
-        "lstm": {
+        "trm": {
             "article_embedding_dim": 300,
-            "merge_hidden_dim": 512,
-            "article_hidden_dim": 256,
-            "monthly_hidden_dim": 512,
             "dropout": 0.5
         },
         "epoch_num": 10,
         "batch_size": 32,
         "lr_strategy": "cosine",
-        "lr": 0.01,
+        "lr": 0.001,
+        "macro_dim": 20
+    },
+    {
+        "add_month": true,
+        "merged_idx": 3,
+        "group_indices": [
+            1,
+            16,
+            18
+        ],
+        "loss": "l1",
+        "model": "trm",
+        "lag": 1,
+        "num_months": 3,
+        "data_months": 180,
+        "test_size": 0,
+        "sample_amount": 1000,
+        "weight_method": "linear",
+        "max_min_weight_ratio": 7.4,
+        "decay_rate": 2,
+        "trm": {
+            "article_embedding_dim": 300,
+            "dropout": 0.5
+        },
+        "epoch_num": 10,
+        "batch_size": 32,
+        "lr_strategy": "cosine",
+        "lr": 0.001,
+        "macro_dim": 20
+    },
+    {
+        "add_month": true,
+        "merged_idx": 3,
+        "group_indices": [
+            11
+        ],
+        "loss": "l1",
+        "model": "trm",
+        "lag": 1,
+        "num_months": 3,
+        "data_months": 180,
+        "test_size": 0,
+        "sample_amount": 1000,
+        "weight_method": "linear",
+        "max_min_weight_ratio": 7.4,
+        "decay_rate": 2,
+        "trm": {
+            "article_embedding_dim": 300,
+            "dropout": 0.5
+        },
+        "epoch_num": 4,
+        "batch_size": 32,
+        "lr_strategy": "cosine",
+        "lr": 0.001,
+        "macro_dim": 20
+    },
+    {
+        "add_month": true,
+        "merged_idx": 3,
+        "group_indices": [
+            8,
+            9
+        ],
+        "loss": "l1",
+        "model": "trm",
+        "lag": 1,
+        "num_months": 3,
+        "data_months": 90,
+        "test_size": 0,
+        "sample_amount": 1000,
+        "weight_method": "linear",
+        "max_min_weight_ratio": 7.4,
+        "decay_rate": 2,
+        "trm": {
+            "article_embedding_dim": 300,
+            "dropout": 0.5
+        },
+        "epoch_num": 7,
+        "batch_size": 32,
+        "lr_strategy": "cosine",
+        "lr": 0.001,
+        "macro_dim": 20
+    },
+    {
+        "add_month": true,
+        "merged_idx": 3,
+        "group_indices": [
+            10
+        ],
+        "loss": "l1",
+        "model": "trm",
+        "lag": 1,
+        "num_months": 3,
+        "data_months": 90,
+        "test_size": 0,
+        "sample_amount": 1000,
+        "weight_method": "linear",
+        "max_min_weight_ratio": 7.4,
+        "decay_rate": 2,
+        "trm": {
+            "article_embedding_dim": 300,
+            "dropout": 0.5
+        },
+        "epoch_num": 4,
+        "batch_size": 32,
+        "lr_strategy": "cosine",
+        "lr": 0.001,
+        "macro_dim": 20
+    },
+    {
+        "add_month": true,
+        "merged_idx": 3,
+        "group_indices": [
+            12,
+            14,
+            15
+        ],
+        "loss": "l1",
+        "model": "trm",
+        "lag": 1,
+        "num_months": 3,
+        "data_months": 120,
+        "test_size": 0,
+        "sample_amount": 1000,
+        "weight_method": "linear",
+        "max_min_weight_ratio": 7.4,
+        "decay_rate": 2,
+        "trm": {
+            "article_embedding_dim": 300,
+            "dropout": 0.5
+        },
+        "epoch_num": 1,
+        "batch_size": 32,
+        "lr_strategy": "cosine",
+        "lr": 0.001,
+        "macro_dim": 20
+    },
+    {
+        "add_month": true,
+        "merged_idx": 3,
+        "group_indices": [
+            6,
+            17
+        ],
+        "loss": "l1",
+        "model": "trm",
+        "lag": 1,
+        "num_months": 3,
+        "data_months": 72,
+        "test_size": 0,
+        "sample_amount": 500,
+        "weight_method": "linear",
+        "max_min_weight_ratio": 7.4,
+        "decay_rate": 2,
+        "trm": {
+            "article_embedding_dim": 300,
+            "dropout": 0.5
+        },
+        "epoch_num": 7,
+        "batch_size": 32,
+        "lr_strategy": "cosine",
+        "lr": 0.001,
+        "macro_dim": 20
+    },
+    {
+        "add_month": true,
+        "merged_idx": 3,
+        "group_indices": [
+            7,
+            19
+        ],
+        "loss": "l1",
+        "model": "trm",
+        "lag": 1,
+        "num_months": 15,
+        "data_months": 90,
+        "test_size": 0,
+        "sample_amount": 1000,
+        "weight_method": "linear",
+        "max_min_weight_ratio": 7.4,
+        "decay_rate": 2,
+        "trm": {
+            "article_embedding_dim": 300,
+            "dropout": 0.5
+        },
+        "epoch_num": 1,
+        "batch_size": 32,
+        "lr_strategy": "cosine",
+        "lr": 0.001,
         "macro_dim": 20
     }
 ]

@@ -67,6 +67,15 @@ if __name__ == '__main__':
                 dropout_prob=args['lstm']['dropout']
             ).to(device)
 
+        elif args['model'] == 'trm':
+            model = EconomicIndicatorPredictorTransformer(
+                merge_input_dim=TrainDataset.get_merge_dim(),
+                article_embedding_dim=args['trm']['article_embedding_dim'],
+                macro_dim=macro_dim,
+                output_dim=len(args.get('group_indices', list(range(20)))),
+                dropout_prob=args['trm']['dropout']
+            ).to(device)
+
         total_params = sum(p.numel() for p in model.parameters())
         print(f"模型总参数量为：{total_params}")
 

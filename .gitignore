@@ -16,8 +16,9 @@ __pycache__/
 # 测试结果目录
 /test_res/
 
-# cal_column.py, too naive to track
+# .py, too naive to track
 /cal_column.py
+/df_see.py
 
 # csv文件
 /*.csv

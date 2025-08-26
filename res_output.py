@@ -13,7 +13,7 @@ models = []
 for i, args in enumerate(all_args):
     args["log_sub_dir"] = log_sub_dir
     train_cache_path = f'./cache/{i}'
-    TrainDataset, TrainDataloader, TestDataset, TestDataloader = data_load_split(args, train_cache_path)
+    TrainDataset, TrainDataloader, TestDataset, TestDataloader = data_load_split(args, train_cache_path, pos='not_train')
     macro_dim = args['macro_dim'] if not args.get('add_month', False) else args["macro_dim"] + 1
     if args['model'] == 'lstm':
         model = EconomicIndicatorPredictor(
@@ -35,6 +35,15 @@ for i, args in enumerate(all_args):
             merge_lstm_hidden_dim=args['lstm']['merge_hidden_dim'],
             monthly_lstm_hidden_dim=args['lstm']['monthly_hidden_dim'],
             dropout_prob=args['lstm']['dropout']
+        )
+
+    elif args['model'] == 'trm':
+        model = EconomicIndicatorPredictorTransformer(
+            merge_input_dim=TrainDataset.get_merge_dim(),
+            article_embedding_dim=args['trm']['article_embedding_dim'],
+            macro_dim=macro_dim,
+            output_dim=len(args.get('group_indices', list(range(20)))),
+            dropout_prob=args['trm']['dropout']
         )
 
     # 加载模型参数

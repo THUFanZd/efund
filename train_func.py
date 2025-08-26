@@ -17,8 +17,8 @@ def organize_files(path):
             shutil.move(os.path.join(path, file), os.path.join(new_folder, file))
         print(f"\u5df2\u5c06 {len(files)} \u4e2a\u6587\u4ef6\u79fb\u52a8\u5230 {new_folder}")
 
-def data_load_split(args, cache_path):
-    if not os.path.exists(cache_path):
+def data_load_split(args, cache_path, pos='in_train'):
+    if not (os.path.exists(cache_path)):# and pos == 'not_train'):
         preprocess_and_save(args, flag='train', cache_path=cache_path)
         preprocess_and_save(args, flag='test', cache_path=cache_path)
     TrainDataset, TrainDataloader = load_data(args, flag='train', cache_path=cache_path)
@@ -67,6 +67,8 @@ def train(model, criterion, optimizer, scheduler, writer, TrainDataloader, TestD
         print(f"Epoch {epoch+1}, Loss: {avg_loss:.4f}")
 
 def val(model, criterion, writer, ValDataloader, epoch, device, tag='val', group_indices=None):
+    if len(group_indices) == 0:
+        return
     model.eval()
     val_loss = 0.0
     mae_sum = None
