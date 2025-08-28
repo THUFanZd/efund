@@ -134,7 +134,7 @@ class EconomicIndicatorPredictorNoArticle(nn.Module):
         return output
     
 
-class PositionalEncoding(nn.Module):
+class PositionalEncoder(nn.Module):
     """Standard sinusoidal positional encoding.
     Expects input of shape (S, B, D). Adds position encodings of length S.
     """
@@ -181,7 +181,7 @@ class TransformerPooler(nn.Module):
             activation='gelu', batch_first=False, layer_norm_eps=layer_norm_eps
         )
         self.encoder = nn.TransformerEncoder(encoder_layer, num_layers=num_layers)
-        self.pe = PositionalEncoding(d_model, dropout)
+        self.pe = PositionalEncoder(d_model, dropout)
         self.cls = nn.Parameter(torch.randn(1, 1, d_model) * 0.02)
         self.return_sequence = return_sequence
         self.out_dim = d_model
@@ -214,7 +214,7 @@ class TransformerPooler(nn.Module):
 # -----------------------------
 # Models: Transformer replacements for LSTM versions
 # -----------------------------
-class EconomicIndicatorPredictorTransformer(nn.Module):
+class EconomicIndicatorPredictorTrmDecoder(nn.Module):
     """
     Transformer-based drop-in replacement for EconomicIndicatorPredictor.
 
@@ -305,3 +305,141 @@ class EconomicIndicatorPredictorTransformer(nn.Module):
 
         # Step 4: head
         return self.mlp_head(months_repr)
+    
+
+class PositionalEncoding(nn.Module):
+    def __init__(self, d_model: int, dropout: float = 0.1, max_len: int = 10000, batch_first: bool = True):
+        super().__init__()
+        self.dropout = nn.Dropout(p=dropout)
+        self.batch_first = batch_first
+
+        pe = torch.zeros(max_len, d_model)  # (L, D)
+        position = torch.arange(0, max_len, dtype=torch.float).unsqueeze(1)  # (L, 1)
+        div_term = torch.exp(torch.arange(0, d_model, 2).float() * (-math.log(10000.0) / d_model))
+        pe[:, 0::2] = torch.sin(position * div_term)
+        pe[:, 1::2] = torch.cos(position * div_term)[:, :pe[:, 1::2].shape[1]]
+        pe = pe.unsqueeze(0)  # (1, L, D) for batch_first
+        self.register_buffer('pe', pe)
+
+    def forward(self, x: torch.Tensor):
+        # x: (B, L, D) if batch_first
+        if self.batch_first:
+            L = x.size(1)
+            x = x + self.pe[:, :L, :]
+        else:
+            L = x.size(0)
+            x = x + self.pe[:L, :].unsqueeze(1)
+        return self.dropout(x)
+
+class EconomicIndicatorPredictorTrm(nn.Module):
+    def __init__(self, 
+                 merge_input_dim,
+                 article_embedding_dim,
+                 macro_dim,
+                 output_dim,
+                 d_model=128,
+                 nhead=8,
+                 enc_num_layers=2,
+                 dec_num_layers=2,
+                 dim_feedforward=256,
+                 dropout_prob=0.3):
+        super().__init__()
+
+        self.d_model = d_model
+
+        # --- Daily financial encoder ---
+        self.financial_in = nn.Linear(merge_input_dim, d_model)
+        self.financial_pos = PositionalEncoding(d_model, dropout_prob, batch_first=True)
+        enc_layer_f = nn.TransformerEncoderLayer(d_model=d_model, nhead=nhead,
+                                                 dim_feedforward=dim_feedforward,
+                                                 dropout=dropout_prob, batch_first=True)
+        self.financial_encoder = nn.TransformerEncoder(enc_layer_f, num_layers=enc_num_layers)
+        self.dropout_financial = nn.Dropout(dropout_prob)
+
+        # --- Article encoder (per month) ---
+        self.article_in = nn.Linear(article_embedding_dim, d_model)
+        self.article_pos = PositionalEncoding(d_model, dropout_prob, batch_first=True)
+        enc_layer_a = nn.TransformerEncoderLayer(d_model=d_model, nhead=nhead,
+                                                 dim_feedforward=dim_feedforward,
+                                                 dropout=dropout_prob, batch_first=True)
+        self.article_encoder = nn.TransformerEncoder(enc_layer_a, num_layers=enc_num_layers)
+        self.dropout_article = nn.Dropout(dropout_prob)
+
+        # --- Monthly fusion projection ---
+        # monthly_input_dim = financial_vec(d_model) + article_vec(d_model) + macro(macro_dim)
+        monthly_input_dim = d_model + d_model + macro_dim
+        self.monthly_proj = nn.Linear(monthly_input_dim, d_model)
+
+        # --- Monthly Transformer Decoder ---
+        self.monthly_pos = PositionalEncoding(d_model, dropout_prob, batch_first=True)
+        dec_layer = nn.TransformerDecoderLayer(d_model=d_model, nhead=nhead,
+                                               dim_feedforward=dim_feedforward,
+                                               dropout=dropout_prob, batch_first=True)
+        self.monthly_decoder = nn.TransformerDecoder(dec_layer, num_layers=dec_num_layers)
+
+        # learnable query token for sequence-level decoding (tgt length = 1)
+        self.query_token = nn.Parameter(torch.randn(1, 1, d_model))
+        self.dropout_monthly = nn.Dropout(dropout_prob)
+
+        # --- Output head ---
+        self.mlp_head = nn.Sequential(
+            nn.Linear(d_model, 64),
+            nn.ReLU(),
+            nn.Dropout(p=dropout_prob),
+            nn.Linear(64, output_dim)
+        )
+
+    def _encode_per_month(self, seq_4d, in_linear, pos_enc, encoder):
+        """
+        seq_4d: (B, n_months, L, D_in)
+        returns: (B, n_months, d_model)  # mean pooled encoder outputs
+        """
+        B, N, L, _ = seq_4d.shape
+        x = seq_4d.view(B * N, L, -1)              # (B*N, L, D_in)
+        x = in_linear(x)                           # (B*N, L, d_model)
+        x = pos_enc(x)                             # add positional enc
+        x = encoder(x)                             # (B*N, L, d_model)
+        x = x.mean(dim=1)                          # mean pool over L -> (B*N, d_model)
+        x = x.view(B, N, self.d_model)             # (B, N, d_model)
+        return x
+
+    def forward(self, financial_seq, article_seq, macro_seq):
+        """
+        financial_seq: (B, n_months, days_per_month, merge_input_dim)
+        article_seq:   (B, n_months, L_art, article_embedding_dim)
+        macro_seq:     (B, n_months, macro_dim)
+        """
+        B, N, _, _ = financial_seq.shape
+
+        # Step 1: encode financial (per month)
+        financial_monthly = self._encode_per_month(financial_seq,
+                                                   self.financial_in,
+                                                   self.financial_pos,
+                                                   self.financial_encoder)
+        financial_monthly = self.dropout_financial(financial_monthly)
+
+        # Step 2: encode article (per month)
+        article_monthly = self._encode_per_month(article_seq,
+                                                 self.article_in,
+                                                 self.article_pos,
+                                                 self.article_encoder)
+        article_monthly = self.dropout_article(article_monthly)
+
+        # Step 3: concat + project to d_model as monthly memory
+        monthly_features = torch.cat([financial_monthly, article_monthly, macro_seq], dim=-1)  # (B, N, d_f + d_a + m)
+        memory = self.monthly_proj(monthly_features)  # (B, N, d_model)
+        memory = self.monthly_pos(memory)             # add month-wise positions
+
+        # Step 4: Transformer Decoder over months with a single query token
+        # Create/expand query token for this batch
+        query = self.query_token.expand(B, 1, self.d_model)  # (B, 1, d_model)
+        # Optionally, you can add a (length-1) positional encoding to tgt as well:
+        query = self.monthly_pos(query)  # still fine for length=1
+
+        # No causal mask needed because tgt length is 1; memory is full context
+        dec_out = self.monthly_decoder(tgt=query, memory=memory)  # (B, 1, d_model)
+        seq_repr = self.dropout_monthly(dec_out.squeeze(1))       # (B, d_model)
+
+        # Step 5: output
+        output = self.mlp_head(seq_repr)  # (B, output_dim)
+        return output

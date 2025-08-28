@@ -68,11 +68,33 @@ if __name__ == '__main__':
             ).to(device)
 
         elif args['model'] == 'trm':
-            model = EconomicIndicatorPredictorTransformer(
+            model = EconomicIndicatorPredictorTrmDecoder(
                 merge_input_dim=TrainDataset.get_merge_dim(),
                 article_embedding_dim=args['trm']['article_embedding_dim'],
                 macro_dim=macro_dim,
                 output_dim=len(args.get('group_indices', list(range(20)))),
+                # fin_d_model=args['trm']['fin_d_model'],
+                # fin_layers=args['trm']['fin_layers'],
+                # art_d_model=args['trm']['art_d_model'],
+                # art_layers=args['trm']['art_layers'],
+                # month_d_model=args['trm']['month_d_model'],
+                # month_layers=args['trm']['month_layers'],
+                # nhead=args['trm']['nhead'],
+                # ff_mult=args['trm']['ff_mult'],
+                dropout_prob=args['trm']['dropout']
+            ).to(device)
+
+        elif args['model'] == 'transformer':
+            model = EconomicIndicatorPredictorTrm(
+                merge_input_dim=TrainDataset.get_merge_dim(),
+                article_embedding_dim=args['trm']['article_embedding_dim'],
+                macro_dim=macro_dim,
+                output_dim=len(args.get('group_indices', list(range(20)))),
+                d_model=args['trm']['d_model'],
+                nhead=args['trm']['nhead'],
+                enc_num_layers=args['trm']['enc_num_layers'],
+                dec_num_layers=args['trm']['dec_num_layers'],
+                dim_feedforward=args['trm']['dim_feedforward'],
                 dropout_prob=args['trm']['dropout']
             ).to(device)
 

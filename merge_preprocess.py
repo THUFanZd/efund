@@ -1,7 +1,6 @@
 import pandas as pd
 
 def fill_na(df: pd.DataFrame):
-    # 对所有列使用向下填充方法
     return df.bfill().ffill()
 
 def normalize_column(df):

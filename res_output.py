@@ -38,12 +38,26 @@ for i, args in enumerate(all_args):
         )
 
     elif args['model'] == 'trm':
-        model = EconomicIndicatorPredictorTransformer(
+        model = EconomicIndicatorPredictorTrmDecoder(
             merge_input_dim=TrainDataset.get_merge_dim(),
             article_embedding_dim=args['trm']['article_embedding_dim'],
             macro_dim=macro_dim,
             output_dim=len(args.get('group_indices', list(range(20)))),
             dropout_prob=args['trm']['dropout']
+        )
+
+    elif args['model'] == 'transformer':
+        model = EconomicIndicatorPredictorTrm(
+            merge_input_dim=TrainDataset.get_merge_dim(),
+            article_embedding_dim=args['trm']['article_embedding_dim'],
+            macro_dim=macro_dim,
+            output_dim=len(args.get('group_indices', list(range(20)))),
+            d_model=args['trm'].get('d_model', 128),
+            nhead=args['trm'].get('nhead', 8),
+            enc_num_layers=args['trm'].get('enc_num_layers', 2),
+            dec_num_layers=args['trm'].get('dec_num_layers', 2),
+            dim_feedforward=args['trm'].get('dim_feedforward', 256),
+            dropout_prob=args['trm'].get('dropout', 0.3)
         )
 
     # 加载模型参数
