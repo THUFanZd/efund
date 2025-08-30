@@ -6,9 +6,8 @@ import gensim
 dict_dim_dict = {
     'sgns.financial.word': 300,
 }
-pbc_conference_path = rf"C:\Users\lzx\Desktop\大四暑\易方达杯\人民银行文本\pbc_conference.csv"
 stopwords_path = r"C:\Users\lzx\Desktop\大四暑\易方达杯\stopwords\hit_stopwords.txt"
-model_path = rf"C:\Users\lzx\Desktop\大四下\毕设\sgns.financial.word\sgns.financial.word"
+model_path = rf"C:\Users\lzx\Desktop\大四\大四下\毕设\sgns.financial.word\sgns.financial.word"
 _model = None
 
 def get_model():

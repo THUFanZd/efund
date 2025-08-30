@@ -1,6 +1,6 @@
 [
     {
-        "log_sub_dir": "transformer_1_epoch",
+        "log_sub_dir": "transformer_1_epoch_final",
         "add_month": true,
         "merged_idx": 3,
         "group_indices": [
@@ -94,7 +94,7 @@
             "dim_feedforward": 256,
             "dropout": 0.5
         },
-        "epoch_num": 4,
+        "epoch_num": 10,
         "batch_size": 32,
         "lr_strategy": "cosine",
         "lr": 0.001,
@@ -157,7 +157,7 @@
             "dim_feedforward": 256,
             "dropout": 0.5
         },
-        "epoch_num": 4,
+        "epoch_num": 10,
         "batch_size": 32,
         "lr_strategy": "cosine",
         "lr": 0.001,
@@ -190,7 +190,7 @@
             "dim_feedforward": 256,
             "dropout": 0.5
         },
-        "epoch_num": 5,
+        "epoch_num": 10,
         "batch_size": 32,
         "lr_strategy": "cosine",
         "lr": 0.001,
