@@ -22,3 +22,5 @@ __pycache__/
 
 # csv文件
 /*.csv
+
+/args copy.json

@@ -71,3 +71,4 @@ if __name__ == '__main__':
         result = chardet.detect(f.read())
         print(result['encoding'])
 
+    find_macro_data(pd.read_csv('../test_macro_hist_with_month.csv', encoding='gbk'), '2020/1/31', 18)
