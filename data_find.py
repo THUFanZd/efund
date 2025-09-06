@@ -56,7 +56,11 @@ def find_merged_data(df: pd.DataFrame, date_str: str, num_month: int):
         # 去掉第一列
         month_data = month_data.drop(columns=['日期'])
         # 强制转化dtype不是数字的为数字
-        month_data = month_data.apply(pd.to_numeric, errors='coerce')
+        for col in month_data.columns:
+            month_data[col] = pd.to_numeric(month_data[col].astype(str).str.replace(',', '').str.strip(), errors='coerce')
+        month_data = month_data.astype({col: 'float' for col in month_data.columns})
+        # 强制转化dtype不是数字的为数字
+        # month_data = month_data.apply(pd.to_numeric, errors='coerce')
         # print(month_data.dtypes)
         numeric_data = month_data.to_numpy()
         res.append(torch.FloatTensor(numeric_data))

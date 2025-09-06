@@ -1,20 +1,25 @@
 [
     {
-        "log_sub_dir": "transformer_2_s1",
+        "log_sub_dir": "transformer_2_final",
         "add_month": true,
         "merged_idx": 3,
         "group_indices": [
-            20, 22
+            0,
+            2,
+            3,
+            4,
+            5,
+            13
         ],
         "loss": "l1",
         "model": "transformer",
         "lag": 1,
-        "num_months": 18,
-        "data_months": 180,
+        "num_months": 3,
+        "data_months": 90,
         "test_size": 0,
         "sample_amount": 1000,
         "weight_method": "linear",
-        "max_min_weight_ratio": 5,
+        "max_min_weight_ratio": 7.4,
         "decay_rate": 2,
         "trm": {
             "article_embedding_dim": 300,
@@ -25,8 +30,8 @@
             "dim_feedforward": 256,
             "dropout": 0.5
         },
-        "epoch_num": 9,
-        "batch_size": 8,
+        "epoch_num": 10,
+        "batch_size": 32,
         "lr_strategy": "cosine",
         "lr": 0.001,
         "macro_dim": 25
@@ -35,12 +40,14 @@
         "add_month": true,
         "merged_idx": 3,
         "group_indices": [
-            21
+            1,
+            16,
+            18
         ],
         "loss": "l1",
         "model": "transformer",
         "lag": 1,
-        "num_months": 18,
+        "num_months": 3,
         "data_months": 180,
         "test_size": 0,
         "sample_amount": 1000,
@@ -56,10 +63,232 @@
             "dim_feedforward": 256,
             "dropout": 0.5
         },
-        "epoch_num": 15,
-        "batch_size": 8,
+        "epoch_num": 10,
+        "batch_size": 32,
         "lr_strategy": "cosine",
-        "lr": 0.005,
+        "lr": 0.001,
+        "macro_dim": 25
+    },
+    {
+        "add_month": true,
+        "merged_idx": 3,
+        "group_indices": [
+            11
+        ],
+        "loss": "l1",
+        "model": "transformer",
+        "lag": 1,
+        "num_months": 3,
+        "data_months": 180,
+        "test_size": 0,
+        "sample_amount": 1000,
+        "weight_method": "linear",
+        "max_min_weight_ratio": 7.4,
+        "decay_rate": 2,
+        "trm": {
+            "article_embedding_dim": 300,
+            "d_model": 128,
+            "nhead": 4,
+            "enc_num_layers": 2,
+            "dec_num_layers": 2,
+            "dim_feedforward": 256,
+            "dropout": 0.5
+        },
+        "epoch_num": 10,
+        "batch_size": 32,
+        "lr_strategy": "cosine",
+        "lr": 0.001,
+        "macro_dim": 25
+    },
+    {
+        "add_month": true,
+        "merged_idx": 3,
+        "group_indices": [
+            8,
+            9
+        ],
+        "loss": "l1",
+        "model": "transformer",
+        "lag": 1,
+        "num_months": 3,
+        "data_months": 90,
+        "test_size": 0,
+        "sample_amount": 1000,
+        "weight_method": "linear",
+        "max_min_weight_ratio": 7.4,
+        "decay_rate": 2,
+        "trm": {
+            "article_embedding_dim": 300,
+            "d_model": 256,
+            "nhead": 4,
+            "enc_num_layers": 4,
+            "dec_num_layers": 4,
+            "dim_feedforward": 256,
+            "dropout": 0.5
+        },
+        "epoch_num": 10,
+        "batch_size": 32,
+        "lr_strategy": "cosine",
+        "lr": 0.001,
+        "macro_dim": 25
+    },
+    {
+        "add_month": true,
+        "merged_idx": 3,
+        "group_indices": [
+            10
+        ],
+        "loss": "l1",
+        "model": "transformer",
+        "lag": 1,
+        "num_months": 3,
+        "data_months": 90,
+        "test_size": 0,
+        "sample_amount": 1000,
+        "weight_method": "linear",
+        "max_min_weight_ratio": 7.4,
+        "decay_rate": 2,
+        "trm": {
+            "article_embedding_dim": 300,
+            "d_model": 128,
+            "nhead": 4,
+            "enc_num_layers": 2,
+            "dec_num_layers": 2,
+            "dim_feedforward": 256,
+            "dropout": 0.5
+        },
+        "epoch_num": 10,
+        "batch_size": 32,
+        "lr_strategy": "cosine",
+        "lr": 0.001,
+        "macro_dim": 25
+    },
+    {
+        "add_month": true,
+        "merged_idx": 3,
+        "group_indices": [
+            12,
+            14,
+            15
+        ],
+        "loss": "l1",
+        "model": "transformer",
+        "lag": 1,
+        "num_months": 3,
+        "data_months": 120,
+        "test_size": 0,
+        "sample_amount": 1000,
+        "weight_method": "linear",
+        "max_min_weight_ratio": 7.4,
+        "decay_rate": 2,
+        "trm": {
+            "article_embedding_dim": 300,
+            "d_model": 128,
+            "nhead": 4,
+            "enc_num_layers": 2,
+            "dec_num_layers": 2,
+            "dim_feedforward": 256,
+            "dropout": 0.5
+        },
+        "epoch_num": 10,
+        "batch_size": 32,
+        "lr_strategy": "cosine",
+        "lr": 0.001,
+        "macro_dim": 25
+    },
+    {
+        "add_month": true,
+        "merged_idx": 3,
+        "group_indices": [
+            6,
+            17
+        ],
+        "loss": "l1",
+        "model": "transformer",
+        "lag": 1,
+        "num_months": 3,
+        "data_months": 72,
+        "test_size": 0,
+        "sample_amount": 500,
+        "weight_method": "linear",
+        "max_min_weight_ratio": 7.4,
+        "decay_rate": 2,
+        "trm": {
+            "article_embedding_dim": 300,
+            "d_model": 256,
+            "nhead": 4,
+            "enc_num_layers": 4,
+            "dec_num_layers": 4,
+            "dim_feedforward": 256,
+            "dropout": 0.5
+        },
+        "epoch_num": 7,
+        "batch_size": 32,
+        "lr_strategy": "cosine",
+        "lr": 0.001,
+        "macro_dim": 25
+    },
+    {
+        "add_month": true,
+        "merged_idx": 3,
+        "group_indices": [
+            7,
+            19
+        ],
+        "loss": "l1",
+        "model": "transformer",
+        "lag": 1,
+        "num_months": 15,
+        "data_months": 90,
+        "test_size": 0,
+        "sample_amount": 1000,
+        "weight_method": "linear",
+        "max_min_weight_ratio": 7.4,
+        "decay_rate": 2,
+        "trm": {
+            "article_embedding_dim": 300,
+            "d_model": 128,
+            "nhead": 4,
+            "enc_num_layers": 2,
+            "dec_num_layers": 2,
+            "dim_feedforward": 256,
+            "dropout": 0.5
+        },
+        "epoch_num": 5,
+        "batch_size": 32,
+        "lr_strategy": "cosine",
+        "lr": 0.001,
+        "macro_dim": 25
+    },
+    {
+        "add_month": true,
+        "merged_idx": 3,
+        "group_indices": [
+            23,24
+        ],
+        "loss": "l1",
+        "model": "transformer",
+        "lag": 1,
+        "num_months": 3,
+        "data_months": 90,
+        "test_size": 0,
+        "sample_amount": 1000,
+        "weight_method": "linear",
+        "max_min_weight_ratio": 7.4,
+        "decay_rate": 2,
+        "trm": {
+            "article_embedding_dim": 300,
+            "d_model": 256,
+            "nhead": 4,
+            "enc_num_layers": 4,
+            "dec_num_layers": 4,
+            "dim_feedforward": 256,
+            "dropout": 0.5
+        },
+        "epoch_num": 5,
+        "batch_size": 32,
+        "lr_strategy": "cosine",
+        "lr": 0.001,
         "macro_dim": 25
     }
 ]

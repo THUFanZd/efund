@@ -3,7 +3,7 @@ import pandas as pd
 shared_path = r"C:\Users\lzx\Desktop\大四暑\易方达杯"
 # 读取两个表格（支持 .csv 或 .xlsx）
 df1 = pd.read_excel(shared_path + '\\夜光卫星遥感数据.xlsx')  # 或 pd.read_excel('table1.xlsx')
-df2 = pd.read_excel(shared_path + '\\金融市场数据.xlsx')  # 或 pd.read_excel('table2.xlsx')
+df2 = pd.read_csv(shared_path + '\\金融市场数据.csv', encoding='gbk')  # 或 pd.read_excel('table2.xlsx')
 
 # 统一日期格式
 df1.iloc[:, 0] = pd.to_datetime(df1.iloc[:, 0], format='%Y/%m/%d', errors='coerce')
@@ -33,4 +33,4 @@ merged_df = pd.merge(df2, df1, on='日期', how='left')
 merged_df = pd.merge(merged_df, df1_sheet2, on='日期', how='left')
 
 # 保存结果
-merged_df.to_csv('origin_merged_result.csv', index=False, encoding='gbk')
+merged_df.to_csv('../origin_merged_result.csv', index=False, encoding='gbk')

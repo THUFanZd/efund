@@ -18,21 +18,13 @@ def normalize_chart(df, nightlight_cols):
     return df
 
 if __name__ == '__main__':
-    idx = input('输入保存结果文件的索引\n如果是1则结果无后缀, 最小是1\n')
-    try:
-        idx = int(idx)
-    except ValueError:
-        print('输入的索引不是整数')
-        exit()
-    assert idx >= 1, '索引不能小于1'
-
     df = pd.read_csv('../origin_merged_result.csv', encoding='gbk')
     l = []
     for i in range(1, len(df.columns)):
         if '夜光指数' in df.columns[i]:
             l.append(i)
 
-    first_col = df.iloc[:, 0]  # date
+    idx = 3  # 固定为3，原本是用来实验不同数据的效果
     light_cols_idx = [df.columns[i] for i in l]
     fin_cols = [i for i in df.columns if i not in light_cols_idx]
     fin_cols = df[fin_cols]
@@ -42,5 +34,5 @@ if __name__ == '__main__':
     light_cols = normalize_chart(light_cols, light_cols_idx)
 
     # 合并处理后的列
-    df = pd.concat([first_col, fin_cols, light_cols], axis=1)
+    df = pd.concat([fin_cols, light_cols], axis=1)
     df.to_csv(f'../merged_result_{idx}.csv', index=False, encoding='gbk')
